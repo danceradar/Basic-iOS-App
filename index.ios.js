@@ -9,6 +9,7 @@ import React, { Component } from 'react';
 import {
   AppRegistry,
   TextInput,
+  ListView,
   Image,
   StyleSheet,
   Text,
@@ -19,7 +20,7 @@ export default class yay extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        <PizzaTranslator></PizzaTranslator>
+        <ListViewBasics></ListViewBasics>
       </View>
     );
   }
@@ -37,6 +38,32 @@ class Bananas extends Component {
 }
 
 AppRegistry.registerComponent('Bananas', () => Bananas);
+
+class ListViewBasics extends Component {
+  // Initialize the hardcoded data
+  constructor(props) {
+    super(props);
+    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    this.state = {
+      dataSource: ds.cloneWithRows([
+        'John', 'Joel', 'James', 'Jimmy', 'Jackson', 'Jillian', 'Julie', 'Devin'
+      ])
+    };
+  }
+  render() {
+    return (
+      <View style={{flex: 1, paddingTop: 22}}>
+        <ListView
+          dataSource={this.state.dataSource}
+          renderRow={(rowData) => <Text>{rowData}</Text>}
+        />
+      </View>
+    );
+  }
+}
+
+// App registration and rendering
+AppRegistry.registerComponent('ListViewBasics', () => ListViewBasics);
 
 class PizzaTranslator extends Component {
   constructor(props) {
