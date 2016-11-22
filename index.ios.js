@@ -4,7 +4,7 @@
  * @flow
  */
 
-import React, { Component } from 'react';
+import React, { Component, TouchableHighlight } from 'react';
 
 import {
   AppRegistry,
@@ -13,10 +13,24 @@ import {
   Image,
   StyleSheet,
   Text,
+  AlertIOS,
+  Alert,
   View
 } from 'react-native';
 
 export default class yay extends Component {
+
+  getMoviesFromApiAsync() {
+    return fetch('https://facebook.github.io/react-native/movies.json')
+      .then((response) => response.json())
+      .then((responseJson) => {
+        return responseJson.movies;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
   render() {
     return (
       <View style={{flex: 1}}>
@@ -25,6 +39,7 @@ export default class yay extends Component {
     );
   }
 }
+
 
 class Bananas extends Component {
   render() {
@@ -40,13 +55,37 @@ class Bananas extends Component {
 AppRegistry.registerComponent('Bananas', () => Bananas);
 
 class ListViewBasics extends Component {
+
+  getMoviesFromApiAsync() {
+    return fetch('https://facebook.github.io/react-native/movies.json')
+      .then((response) => response.json())
+      .then((responseJson) => {
+        return responseJson.movies;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
   // Initialize the hardcoded data
   constructor(props) {
     super(props);
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    var movies = [];
+    fetch('https://facebook.github.io/react-native/movies.json')
+      .then((response) => response.json())
+      .then((responseJson) => {
+        this.movies = responseJson.movies;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
     this.state = {
       dataSource: ds.cloneWithRows([
-        'John', 'Joel', 'James', 'Jimmy', 'Jackson', 'Jillian', 'Julie', 'Devin'
+        { "title": "Star Wars", "releaseYear": "1977"},
+        { "title": "Back to the Future", "releaseYear": "1985"},
+        { "title": "The Matrix", "releaseYear": "1999"},
+        { "title": "Inception", "releaseYear": "2010"},
+        { "title": "Interstellar", "releaseYear": "2014"}
       ])
     };
   }
@@ -55,7 +94,7 @@ class ListViewBasics extends Component {
       <View style={{flex: 1, paddingTop: 22}}>
         <ListView
           dataSource={this.state.dataSource}
-          renderRow={(rowData) => <Text>{rowData}</Text>}
+          renderRow={(rowData) => <Text>{rowData.title} - {rowData.releaseYear}</Text>}
         />
       </View>
     );
