@@ -8,6 +8,7 @@ import React, { Component } from 'react';
 
 import {
   AppRegistry,
+  TextInput,
   Image,
   StyleSheet,
   Text,
@@ -18,9 +19,7 @@ export default class yay extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        <View style={{flex: 1, backgroundColor: 'powderblue'}} />
-        <View style={{flex: 2, backgroundColor: 'skyblue'}} />
-        <View style={{flex: 3, backgroundColor: 'steelblue'}} />
+        <PizzaTranslator></PizzaTranslator>
       </View>
     );
   }
@@ -38,6 +37,29 @@ class Bananas extends Component {
 }
 
 AppRegistry.registerComponent('Bananas', () => Bananas);
+
+class PizzaTranslator extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {text: ''};
+  }
+
+  render() {
+    return (
+      <View style={{flex: 1}}>
+      <View style={{flex: 1, backgroundColor: 'powderblue'}} />
+      <TextInput
+        style={{flex: 2, backgroundColor: 'skyblue', color: 'blue'}}
+        placeholder="Type here to translate!"
+        onChangeText={(text) => this.setState({text})}
+      />
+      <Text style={{flex: 3, backgroundColor: 'steelblue'}}>
+        {this.state.text.split(' ').map((word) => word && '🍕').join(' ')}
+      </Text>
+      </View>
+    );
+  }
+}
 
 class Blink extends Component {
   constructor(props) {
